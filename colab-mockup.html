@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colab | Real Estate Growth Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg0: #0B1220;
+    --bg1: #101928;
+    --bg2: #152035;
+    --blue: #3D6EEE;
+    --blue2: #5B8AFF;
+    --blue-dim: rgba(61, 110, 238, 0.15);
+    --blue-border: rgba(61, 110, 238, 0.28);
+    --txt0: #EEF2FF;
+    --txt1: #9AABC8;
+    --txt2: #56688A;
+    --bd: rgba(255, 255, 255, 0.07);
+    --bd2: rgba(255, 255, 255, 0.11);
+    --r: 10px;
+    --r2: 14px;
+    --ff-disp: 'Barlow Condensed', sans-serif;
+    --ff-body: 'DM Sans', sans-serif;
+    --ff-logo: 'Syne', sans-serif;
+    --max: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg0);
+    color: var(--txt0);
+    font-family: var(--ff-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* UTILS */
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+  .bd-b { border-bottom: 1px solid var(--bd); }
+  .alt { background: var(--bg1); }
+  .sec { padding: 80px 0; }
+
+  /* EYEBROW */
+  .eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+  .eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+  .eyebrow-txt { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); }
+
+  /* HEADINGS */
+  .h { font-family: var(--ff-disp); font-weight: 900; line-height: 1.0; margin-bottom: 20px; color: var(--txt0); }
+  .h .accent { color: var(--blue2); }
+  .sub { color: var(--txt1); font-size: 15px; line-height: 1.75; max-width: 520px; margin-bottom: 52px; }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid var(--bd);
+    position: sticky;
+    top: 0;
+    background: rgba(11, 18, 32, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--ff-logo);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--txt0);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    color: var(--txt1);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--txt0); }
+
+  .nav-btn {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 7px;
+    font-family: var(--ff-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-btn:hover { opacity: 0.88; }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 56px;
+    align-items: start;
+    padding: 84px 0 76px;
+  }
+
+  .hero-h1 {
+    font-family: var(--ff-disp);
+    font-weight: 900;
+    font-size: 80px;
+    line-height: 0.90;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    color: var(--txt0);
+  }
+  .hero-h1 .accent { color: var(--blue2); }
+
+  .hero-sub {
+    color: var(--txt1);
+    font-size: 16px;
+    line-height: 1.75;
+    max-width: 420px;
+    margin-bottom: 36px;
+  }
+
+  .hero-btns { display: flex; gap: 12px; }
+
+  .btn-p {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-family: var(--ff-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-p:hover { opacity: 0.88; }
+
+  .btn-s {
+    background: transparent;
+    color: var(--txt1);
+    border: 1px solid var(--bd2);
+    padding: 13px 24px;
+    border-radius: 8px;
+    font-family: var(--ff-body);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-s:hover { border-color: rgba(255,255,255,0.22); color: var(--txt0); }
+
+  /* PILLAR CARDS */
+  .pillar-stack { display: flex; flex-direction: column; gap: 10px; padding-top: 6px; }
+
+  .pillar-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd2);
+    border-radius: var(--r);
+    padding: 20px 22px;
+    transition: border-color 0.2s;
+  }
+  .pillar-card:hover { border-color: var(--blue-border); }
+
+  .pillar-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 7px;
+  }
+  .pillar-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--txt0);
+    margin-bottom: 5px;
+  }
+  .pillar-desc { font-size: 13px; color: var(--txt1); line-height: 1.55; }
+
+  /* THREE-COL GRID */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+  /* CHALLENGE CARDS */
+  .ch-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--r);
+    padding: 28px 24px;
+    transition: border-color 0.2s;
+  }
+  .ch-card:hover { border-color: var(--bd2); }
+
+  .ch-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .ch-icon svg { width: 16px; height: 16px; stroke: var(--blue2); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .ch-card h3 { font-size: 14px; font-weight: 600; color: var(--txt0); margin-bottom: 9px; }
+  .ch-card p { font-size: 13px; color: var(--txt1); line-height: 1.65; }
+
+  /* PROCESS */
+  .proc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--bd);
+  }
+
+  .proc-item {
+    padding: 40px 36px 40px 0;
+    border-right: 1px solid var(--bd);
+  }
+  .proc-item:last-child { border-right: none; padding-right: 0; }
+  .proc-item:not(:first-child) { padding-left: 36px; }
+
+  .proc-num {
+    font-family: var(--ff-disp);
+    font-weight: 900;
+    font-size: 60px;
+    color: rgba(61, 110, 238, 0.13);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .proc-badge {
+    display: inline-flex;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--blue-border);
+    background: rgba(61, 110, 238, 0.08);
+    font-family: var(--ff-body);
+    font-size: 12px;
+    color: var(--blue2);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .proc-item h3 { font-size: 15px; font-weight: 600; color: var(--txt0); margin-bottom: 10px; line-height: 1.35; }
+  .proc-item p { font-size: 13px; color: var(--txt1); line-height: 1.7; }
+
+  /* PLATFORM CARDS */
+  .plat-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--r);
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s;
+  }
+  .plat-card:hover { border-color: var(--bd2); }
+
+  .plat-num { font-size: 11px; color: var(--blue); font-weight: 500; margin-bottom: 18px; letter-spacing: 0.06em; }
+  .plat-card h3 { font-size: 15px; font-weight: 600; color: var(--txt0); margin-bottom: 12px; line-height: 1.3; }
+  .plat-card p { font-size: 13px; color: var(--txt1); line-height: 1.7; flex: 1; margin-bottom: 22px; }
+  .plat-link { font-size: 13px; color: var(--blue); text-decoration: none; transition: color 0.2s; }
+  .plat-link:hover { color: var(--blue2); }
+
+  /* RESULT CARDS */
+  .res-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--r);
+    padding: 30px 26px;
+  }
+
+  .res-qmark {
+    width: 28px;
+    height: 3px;
+    background: var(--blue);
+    border-radius: 2px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .res-q {
+    font-size: 13px;
+    color: var(--txt1);
+    line-height: 1.75;
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+
+  .res-metric {
+    font-family: var(--ff-disp);
+    font-weight: 900;
+    font-size: 44px;
+    color: var(--blue2);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .res-label { font-size: 12px; color: var(--txt2); line-height: 1.5; }
+
+  .res-note {
+    font-size: 12px;
+    color: var(--txt2);
+    font-style: italic;
+    text-align: center;
+    margin-top: 24px;
+    padding: 10px 16px;
+    border: 1px solid rgba(255, 200, 0, 0.14);
+    border-radius: 6px;
+    background: rgba(255, 200, 0, 0.03);
+  }
+
+  /* PRICING */
+  .price-card {
+    background: var(--bg2);
+    border: 1px solid var(--bd);
+    border-radius: var(--r);
+    padding: 30px 26px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card.feat { border-color: var(--blue); }
+
+  .feat-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--blue);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 18px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-family: var(--ff-body);
+  }
+
+  .price-tier {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+
+  .price-amt {
+    font-family: var(--ff-disp);
+    font-weight: 900;
+    font-size: 48px;
+    color: var(--txt0);
+    line-height: 1;
+  }
+
+  .price-per { font-size: 13px; color: var(--txt1); margin-top: 5px; margin-bottom: 24px; }
+
+  .price-feats {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex: 1;
+  }
+
+  .price-feats li {
+    font-size: 13px;
+    color: var(--txt1);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .price-feats li::before {
+    content: '';
+    display: block;
+    width: 15px;
+    height: 15px;
+    min-width: 15px;
+    border-radius: 50%;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.5 7l2.2 2.2L10.5 4.5' stroke='%233D6EEE' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    top: 1px;
+  }
+
+  .pbtn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    font-family: var(--ff-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .pbtn:hover { opacity: 0.85; }
+  .pbtn-out { background: transparent; color: var(--blue); border: 1px solid var(--blue-border); }
+  .pbtn-fill { background: var(--blue); color: #fff; border: none; }
+
+  /* CTA SECTION */
+  .cta-sec {
+    padding: 96px 48px;
+    text-align: center;
+    border-top: 1px solid var(--bd);
+  }
+
+  .cta-inner { max-width: 580px; margin: 0 auto; }
+
+  .email-btn {
+    background: transparent;
+    color: var(--txt1);
+    border: 1px solid var(--bd2);
+    padding: 13px 24px;
+    border-radius: 8px;
+    font-family: var(--ff-body);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .email-btn:hover { border-color: rgba(255,255,255,0.22); color: var(--txt0); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--bd);
+    padding: 56px 48px;
+  }
+
+  .footer-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr 1fr;
+    gap: 56px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--txt2);
+    margin-top: 14px;
+    line-height: 1.65;
+    max-width: 200px;
+  }
+
+  .ft-col h4 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 18px;
+  }
+
+  .ft-col a,
+  .ft-col p {
+    display: block;
+    font-size: 13px;
+    color: var(--txt1);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .ft-col a:hover { color: var(--txt0); }
+
+  .footer-bottom {
+    max-width: var(--max);
+    margin: 40px auto 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--bd);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p { font-size: 12px; color: var(--txt2); }
+  .footer-bottom a { font-size: 12px; color: var(--txt2); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--txt1); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Colab</a>
+  <div class="nav-links">
+    <a href="#how-it-works">How It Works</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#insights">Insights</a>
+  </div>
+  <button class="nav-btn">Book a Strategy Call</button>
+</nav>
+
+<!-- HERO -->
+<div class="bd-b">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">
+          <div class="eyebrow-dot"></div>
+          <span class="eyebrow-txt">Real Estate Growth Advisory</span>
+        </div>
+        <div class="hero-h1">
+          Grow your<br>
+          agency.<br>
+          <span class="accent">Recruit</span><br>
+          better<br>
+          people.
+        </div>
+        <p class="hero-sub">Colab is the advisory and implementation partner for real estate principals who are serious about growth, not just more content.</p>
+        <div class="hero-btns">
+          <button class="btn-p">Book a Strategy Call</button>
+          <button class="btn-s">See How It Works &nbsp;&#8594;</button>
+        </div>
+      </div>
+      <div class="pillar-stack">
+        <div class="pillar-card">
+          <div class="pillar-lbl">Pillar 01</div>
+          <div class="pillar-name">Recruitment System</div>
+          <div class="pillar-desc">A proven, repeatable process for attracting and converting top agents.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-lbl">Pillar 02</div>
+          <div class="pillar-name">Technology &amp; Efficiency Audit</div>
+          <div class="pillar-desc">Full stack review benchmarked across the 10-phase sales journey.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-lbl">Pillar 03</div>
+          <div class="pillar-name">Growth Advisory &amp; Implementation</div>
+          <div class="pillar-desc">From strategic direction through to full operational execution.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHALLENGE -->
+<section class="alt bd-b sec" id="about">
+  <div class="wrap">
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-txt">The Challenge</span>
+    </div>
+    <div class="h" style="font-size: 48px;">
+      Most agencies don't have a growth problem.<br>
+      They have a <span class="accent">system problem.</span>
+    </div>
+    <p class="sub">Recruiting high-performing agents consistently, running a lean tech stack, keeping a growing team aligned. These are execution problems. The gap is having the structure, support, and accountability to make it happen.</p>
+    <div class="grid-3">
+      <div class="ch-card">
+        <div class="ch-icon">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><polyline points="8,5 8,8 10.2,10.2"/></svg>
+        </div>
+        <h3>Inconsistent recruitment</h3>
+        <p>No repeatable system for attracting and converting top agents. Every hire feels like starting from scratch.</p>
+      </div>
+      <div class="ch-card">
+        <div class="ch-icon">
+          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        </div>
+        <h3>Technology sprawl</h3>
+        <p>Tools that don't talk to each other, costs that add up and automation opportunities consistently missed.</p>
+      </div>
+      <div class="ch-card">
+        <div class="ch-icon">
+          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><line x1="8" y1="8" x2="10" y2="10"/></svg>
+        </div>
+        <h3>No outside perspective</h3>
+        <p>Too close to the business to see what's holding it back. No trusted operator with real network experience to challenge assumptions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="bd-b sec" id="how-it-works">
+  <div class="wrap">
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-txt">The Process</span>
+    </div>
+    <div class="h" style="font-size: 48px;">
+      Three steps to a <span class="accent">better-run agency</span>
+    </div>
+    <p class="sub">Not a course. Not a one-off engagement. A structured partnership designed to produce real, measurable outcomes.</p>
+    <div class="proc-grid">
+      <div class="proc-item">
+        <div class="proc-num">01</div>
+        <div class="proc-badge">Strategy Session</div>
+        <h3>Deep-dive into your business</h3>
+        <p>A clear-eyed look at where you are, where you want to be and what's actually in the way. No templates. No generic frameworks.</p>
+      </div>
+      <div class="proc-item">
+        <div class="proc-num">02</div>
+        <div class="proc-badge">Tailored Growth Plan</div>
+        <h3>A concrete plan across three areas</h3>
+        <p>Your recruitment system, technology stack and operational efficiency mapped to your targets and delivered as a working roadmap.</p>
+      </div>
+      <div class="proc-item">
+        <div class="proc-num">03</div>
+        <div class="proc-badge">Ongoing Partnership</div>
+        <h3>Implement, track, adjust together</h3>
+        <p>Monthly sessions, accountability check-ins and direct access to support. For as long as you're building.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM -->
+<section class="alt bd-b sec" id="services">
+  <div class="wrap">
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-txt">The Platform</span>
+    </div>
+    <div class="h" style="font-size: 48px;">
+      Everything a principal needs to grow.<br>
+      <span class="accent">Nothing they don't.</span>
+    </div>
+    <div class="grid-3">
+      <div class="plat-card">
+        <div class="plat-num">01</div>
+        <h3>Recruitment System</h3>
+        <p>A complete, proven system for attracting, recruiting and retaining high-performing agents. Built from real network-level experience and designed to run without you in the room.</p>
+        <a href="#" class="plat-link">View Services &#8594;</a>
+      </div>
+      <div class="plat-card">
+        <div class="plat-num">02</div>
+        <h3>Technology &amp; Efficiency Audit</h3>
+        <p>A full audit of your technology stack benchmarked across the 10-phase sales journey. Identifies cost savings, missing integrations and automation opportunities.</p>
+        <a href="#" class="plat-link">View Services &#8594;</a>
+      </div>
+      <div class="plat-card">
+        <div class="plat-num">03</div>
+        <h3>Growth Advisory &amp; Implementation</h3>
+        <p>From strategic direction and accountability through to full execution support. CRM setup, workflow automation, VA coordination, KPI dashboards and revenue program design.</p>
+        <a href="#" class="plat-link">View Services &#8594;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="bd-b sec">
+  <div class="wrap">
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-txt">Client Results</span>
+    </div>
+    <div class="h" style="font-size: 48px;">
+      Measurable outcomes.<br>
+      <span class="accent">Not just better meetings.</span>
+    </div>
+    <div class="grid-3">
+      <div class="res-card">
+        <div class="res-qmark"></div>
+        <div class="res-q">First time I've had a recruitment process I can hand to my manager and know it'll run without me.</div>
+        <div class="res-metric">+30%</div>
+        <div class="res-label">Recruitment conversion. Principal, 22-agent agency, NSW</div>
+      </div>
+      <div class="res-card">
+        <div class="res-qmark"></div>
+        <div class="res-q">The technology audit alone paid for the first six months of the engagement. We had no idea how much we were wasting.</div>
+        <div class="res-metric">$140K</div>
+        <div class="res-label">Annual technology cost savings. Director, multi-office group, QLD</div>
+      </div>
+      <div class="res-card">
+        <div class="res-qmark"></div>
+        <div class="res-q">Andrew understands how agencies actually work. The advice is commercial, practical and specific to our situation.</div>
+        <div class="res-metric">90 days</div>
+        <div class="res-label">To measurable growth plan delivery. Principal, boutique agency, VIC</div>
+      </div>
+    </div>
+    <div class="res-note">Placeholder testimonials to be replaced with verified client quotes before launch.</div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="alt bd-b sec" id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-txt">Investment</span>
+    </div>
+    <div class="h" style="font-size: 48px;">
+      Structured engagement,<br>
+      <span class="accent">transparent pricing</span>
+    </div>
+    <p class="sub">Three tiers designed to match where your business is now and grow with you.</p>
+    <div class="grid-3">
+      <div class="price-card">
+        <div class="price-tier">Growth Advisory</div>
+        <div class="price-amt">$3,500</div>
+        <div class="price-per">per month</div>
+        <ul class="price-feats">
+          <li>Full recruitment system access</li>
+          <li>2 x 30-min strategy sessions per month</li>
+          <li>Technology audit included</li>
+          <li>AI advisory</li>
+        </ul>
+        <button class="pbtn pbtn-out">Book a Strategy Call</button>
+      </div>
+      <div class="price-card feat">
+        <div class="feat-badge">Most Popular</div>
+        <div class="price-tier">Implementation Partner</div>
+        <div class="price-amt">$4,950</div>
+        <div class="price-per">per month</div>
+        <ul class="price-feats">
+          <li>Everything in Growth Advisory</li>
+          <li>CRM and workflow setup</li>
+          <li>Recruitment execution</li>
+          <li>KPI dashboards</li>
+          <li>AI implementation</li>
+        </ul>
+        <button class="pbtn pbtn-fill">Book a Strategy Call</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Operating Partner</div>
+        <div class="price-amt">$8,000</div>
+        <div class="price-per">per month</div>
+        <ul class="price-feats">
+          <li>Everything in Implementation</li>
+          <li>Dedicated VA (80 to 120 hrs/month)</li>
+          <li>Advanced AI and automation</li>
+          <li>Revenue program design</li>
+          <li>Quarterly planning sessions</li>
+        </ul>
+        <button class="pbtn pbtn-out">Book a Strategy Call</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contact">
+  <div class="cta-inner">
+    <div class="eyebrow" style="justify-content: center;">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-txt">Ready to grow?</span>
+    </div>
+    <div class="h" style="font-size: 60px; text-align: center;">
+      Let's look at your<br>
+      <span class="accent">business clearly.</span>
+    </div>
+    <p style="color: var(--txt1); font-size: 15px; line-height: 1.75; text-align: center; margin: 20px auto 40px; max-width: 460px;">Book a complimentary strategy call. No pitch, no hard sell. Just a clear-eyed conversation about your agency and where the opportunity is.</p>
+    <div style="display: flex; justify-content: center; gap: 12px;">
+      <button class="btn-p" style="padding: 15px 32px; font-size: 14px;">Book a Strategy Call</button>
+      <button class="email-btn">hello@colab.au</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="insights">
+  <div class="footer-inner">
+    <div>
+      <a href="#" class="logo">Colab</a>
+      <p class="footer-tagline">Real estate growth and recruitment advisory. Built for principals who are serious about the next stage.</p>
+    </div>
+    <div class="ft-col">
+      <h4>Platform</h4>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#insights">Insights</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="ft-col">
+      <h4>Contact</h4>
+      <p>hello@colab.au</p>
+      <p>Sydney, NSW</p>
+      <p>National practice</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Colab. All rights reserved.</p>
+    <div style="display: flex; gap: 24px;">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
